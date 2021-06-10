@@ -32,15 +32,20 @@ function afficherPageProduit() {
         let btnPanier= document.createElement("button");
             btnPanier.onclick = function addLocal(){
                 let name= nounourses.name;
+                let verify = window.localStorage.getItem(`${name}`);
+                let cartProduct
+                if (!verify) {
+                    cartProduct = [];
+                }
+                else {
+                    cartProduct = JSON.parse(verify);
+                }
                 let price= nounourses.price/200
                 let getColor = document.getElementsByTagName("select")[0];
                 let colorValue = getColor.value;
-                let cartInfos= [price, colorValue];
-                window.localStorage.setItem(`${name}`, JSON.stringify(cartInfos));
-                let itemInfos = window.localStorage.getItem(`${name}`);
-                let itemStock= JSON.parse(itemInfos);
-                console.log(JSON.parse(itemInfos));
-                console.log(itemStock[1]);
+                let cartInfos= {price, colorValue};
+                cartProduct.push(cartInfos);
+                window.localStorage.setItem(`${name}`, JSON.stringify(cartProduct));
             }
         let txtBtnPanier= document.createTextNode("Ajouter au panier");
             btnPanier.appendChild(txtBtnPanier);
